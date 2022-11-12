@@ -131,7 +131,7 @@ def get_detailed_listing_database(html_file):
     # print(results_tup_list)
     return results_tup_list
 
-data_tup = get_detailed_listing_database('html_files/mission_district_search_results.html')
+# data_tup = get_detailed_listing_database('html_files/mission_district_search_results.html')
 
 
 
@@ -166,7 +166,7 @@ def write_csv(data, filename):
         for row in data_sorted:
             writer.writerow(row)
 
-write_csv(data_tup, 'csv_write_test.csv')
+# write_csv(data_tup, 'csv_write_test.csv')
 
 
 def check_policy_numbers(data):
@@ -188,7 +188,23 @@ def check_policy_numbers(data):
     ]
 
     """
-    pass
+    id_list = []
+    for tup in data:
+        if tup[3] == "Pending" or tup[3] == "Exempt":
+            continue
+        else:
+            policy = tup[3]
+            # print(policy)
+            match1 = re.match('20[0-9][0-9]-00[0-9][0-9][0-9][0-9]STR', policy)
+            match2 = re.match('STR-000[0-9][0-9][0-9][0-9]', policy)
+            if not match1 and not match2:
+                id_list.append(policy)
+    # print(id_list)
+    return id_list
+
+
+check_policy_numbers(data_tup)
+
 
 
 def extra_credit(listing_id):
